@@ -2,7 +2,8 @@ from random import randint
 from statistics import mode, mean
 
 PLAYERS = 5
-MANUAL_PLAYER = True
+MANUAL_PLAYER = False
+PAUSE_AFTER_EACH_ROUND = False
 
 
 class Player:
@@ -18,10 +19,12 @@ class Player:
     def make_bid(self, current_face, current_value, increase_by=0):
         self.challenge = False
         self.bid = {'face': current_face, "current_value": current_value + increase_by}
+        print(f'Player {self.player_number} made a bid!')
 
     def call_lie(self):
         self.challenge = True
         self.bid = None
+        print(f'Player {self.player_number} called a lie!')
 
     def lose(self):
         self.dices -= 1
@@ -97,7 +100,7 @@ while True:
                         player_in_play.call_lie()
                         break
                     else:
-                        print('Please enter a valid number!')
+                        print('Please enter a valid input!')
                         continue
 
         else:
@@ -131,8 +134,12 @@ while True:
         _round += 1
         print('Current status:')
         for player in players:
-            print(f"{player.player_number}: {player.dices} dices")
+            print(f"Player {player.player_number}: {player.dices} dices")
+        print('-----------------------------------------------------------------------------')
     else:
         break
+
+    if PAUSE_AFTER_EACH_ROUND:
+        input("Press Enter to continue...")
 
 print(f'We have a winner! Player: {players[0].player_number}')
